@@ -25,6 +25,7 @@ model Post {
   description String
   author      User   @relation(fields: [authorId], references: [id])
   authorId    String
+  // cateogories Category[]
 }
 
 // One To One Relation between User And Departemnt
@@ -37,3 +38,10 @@ model Department {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Many to Many relation between post and category. but in MongoDb we have to explicitly mention the many to many relationship syntax.
+// model Category {
+//   id String @id @map("_id") @default(uuid())
+//   title String
+//   posts Post[]
+// }

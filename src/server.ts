@@ -137,6 +137,7 @@ app.get("/fetch-dept", async (req, res) => {
   }
 });
 
+
 const PORT: number = Number(process.env?.PORT) || 5005;
 app.listen(PORT, () => {
   console.log(`🚀 Server is Running at PORT:- http://localhost:${PORT}`);
