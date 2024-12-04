@@ -102,6 +102,41 @@ app.get("/fetch-posts", async (req, res) => {
   }
 });
 
+// Department Routes
+
+app.post("/create-dept", async (req, res) => {
+  try {
+    const department = await prisma.department.create({ data: req.body });
+    res.status(201).send({
+      msg: "User has been enrolled in Department!",
+      department,
+    });
+  } catch (error) {
+    throw error;
+  }
+});
+
+app.get("/fetch-dept", async (req, res) => {
+  try {
+    const departments = await prisma.department.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+    res.status(201).send({
+      msg: "User has been enrolled in Department!",
+      departments,
+    });
+  } catch (error) {
+    throw error;
+  }
+});
+
 const PORT: number = Number(process.env?.PORT) || 5005;
 app.listen(PORT, () => {
   console.log(`🚀 Server is Running at PORT:- http://localhost:${PORT}`);

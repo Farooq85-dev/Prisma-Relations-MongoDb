@@ -7,14 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// One To Many Relations between User And Post
 model User {
-  id        String   @id @default(uuid()) @map("_id")
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Post      Post[]
+  id         String      @id @default(uuid()) @map("_id")
+  name       String
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Post       Post[]
+  department Department?
 }
 
 model Post {
@@ -23,4 +25,15 @@ model Post {
   description String
   author      User   @relation(fields: [authorId], references: [id])
   authorId    String
+}
+
+// One To One Relation between User And Departemnt
+
+model Department {
+  id        String   @id @default(uuid()) @map("_id")
+  title     String   @unique
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
