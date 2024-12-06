@@ -84,11 +84,15 @@ app.post("/create-post", async (req, res) => {
 app.get("/fetch-posts", async (req, res) => {
   try {
     const fetchedPosts = await prisma.post.findMany({
+      where: {
+        title: {
+          equals: "Next Js",
+        },
+      },
       include: {
         author: {
           select: {
             name: true,
-            email: true,
           },
         },
       },
@@ -136,7 +140,6 @@ app.get("/fetch-dept", async (req, res) => {
     throw error;
   }
 });
-
 
 const PORT: number = Number(process.env?.PORT) || 5005;
 app.listen(PORT, () => {
