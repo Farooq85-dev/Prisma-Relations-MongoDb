@@ -81,26 +81,37 @@ app.post("/create-post", async (req, res) => {
   }
 });
 
-app.get("/fetch-posts", async (req, res) => {
+app.get("/fetch-posts/:cursor/:pageSize", async (req, res) => {
   try {
-    const fetchedPosts = await prisma.post.groupBy({
-      by: ["authorId"],
-      _count: {
-        title: true,
+    const { cursor, pageSize } = req.params;
+    const fetchedPosts = await prisma.post.findMany({
+      cursor: {
+        id: cursor,
       },
-      _avg: {
-        likes: true,
-      },
-      _sum: {
-        likes: true,
-      },
-      _min: {
-        likes: true,
-      },
-      _max: {
-        likes: true,
-      },
+      take: parseInt(pageSize),
 
+      // Offset Bases Pagimnation
+      //   skip: pageNumber * pageSize,
+      // orderBy: {
+      //   // title: "asc",
+      //   title: "desc",
+      // },
+      // by: ["authorId"],
+      // _count: {
+      //   title: true,
+      // },
+      // _avg: {
+      //   likes: true,
+      // },
+      // _sum: {
+      //   likes: true,
+      // },
+      // _min: {
+      //   likes: true,
+      // },
+      // _max: {
+      //   likes: true,
+      // },
       // where: {
       //   title: {
       //     equals: "Next Js",
