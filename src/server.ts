@@ -83,19 +83,32 @@ app.post("/create-post", async (req, res) => {
 
 app.get("/fetch-posts", async (req, res) => {
   try {
-    const fetchedPosts = await prisma.post.findMany({
-      where: {
-        title: {
-          equals: "Next Js",
-        },
+    const fetchedPosts = await prisma.post.aggregate({
+      _count: {
+        title: true,
       },
-      include: {
-        author: {
-          select: {
-            name: true,
-          },
-        },
+      _avg: {
+        likes: true,
       },
+      _min: {
+        likes: true,
+      },
+      _max: {
+        likes: true,
+      },
+
+      // where: {
+      //   title: {
+      //     equals: "Next Js",
+      //   },
+      // },
+      // include: {
+      //   author: {
+      //     select: {
+      //       name: true,
+      //     },
+      //   },
+      // },
     });
     res.status(201).send({
       msg: "Post Fetched Successfully!",

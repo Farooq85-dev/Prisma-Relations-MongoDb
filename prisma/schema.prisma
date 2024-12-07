@@ -23,6 +23,7 @@ model Post {
   id          String @id @default(uuid()) @map("_id")
   title       String
   description String
+  likes       Int    @default(0)
   author      User   @relation(fields: [authorId], references: [id])
   authorId    String
   // cateogories Category[]
