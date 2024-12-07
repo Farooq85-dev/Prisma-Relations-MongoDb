@@ -83,11 +83,15 @@ app.post("/create-post", async (req, res) => {
 
 app.get("/fetch-posts", async (req, res) => {
   try {
-    const fetchedPosts = await prisma.post.aggregate({
+    const fetchedPosts = await prisma.post.groupBy({
+      by: ["authorId"],
       _count: {
         title: true,
       },
       _avg: {
+        likes: true,
+      },
+      _sum: {
         likes: true,
       },
       _min: {
